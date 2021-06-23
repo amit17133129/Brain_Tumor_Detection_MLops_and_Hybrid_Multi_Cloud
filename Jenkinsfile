@@ -6,7 +6,7 @@ pipeline {
                 label 'kubernetes_master'
             }
                 steps {
-                    sh 'sudo kubectl create deployment bt  --image=amitsharma17133129/brain_tumor:v1' 
+                    sh 'sudo kubectl create deployment bt  --image=amitsharma17133129/brain_tumor1:v1' 
                     sh 'sudo kubectl expose deployment bt --type=NodePort  --port=4444'
                     sh 'sudo kubectl get pod -o wide'
                     
