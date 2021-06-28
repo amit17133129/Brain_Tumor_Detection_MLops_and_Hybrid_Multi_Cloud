@@ -1,1 +1,1 @@
-# Brain_Tumor_Detection_MLops_Hybrid_Multi_Cloud
+# Brain Tumor Detection MLops And Hybrid Multi Cloud
