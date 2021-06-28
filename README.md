@@ -537,11 +537,11 @@ After saving the job it will looks like below image
 Now you have to just click on build and your job will start building. Below is the console output of the job.
 
 <p align="center">
-  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*zn_4uFm9_ks3BakJQeAa_Q.jpeg">
+  <img width="1000" height="600" src="https://miro.medium.com/max/1094/1*zn_4uFm9_ks3BakJQeAa_Q.jpeg">
 </p>
 
 <p align="center">
-  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*zn_4uFm9_ks3BakJQeAa_Q.jpeg">
+  <img width="1000" height="600" src="https://miro.medium.com/max/1094/1*zn_4uFm9_ks3BakJQeAa_Q.jpeg">
 </p>
 
 As you can see that job ran successfully, now we have to see the deployment in kubernetes cluster. So go to kubernetes master node and then type below commands.
@@ -553,6 +553,6 @@ As you can see that job ran successfully, now we have to see the deployment in k
 As you can see in the below image that one pod is running and exposed on the port 30801 a web ui will appear and it will ask you to enter the brain MRI image and after clicking on submit it will predict that a person with that brain mri image having brain tumor or not.
 
 <p align="center">
-  <img width="1000" height="400" src="https://miro.medium.com/max/1094/1*4hjahs4ROzV3z6pJTmwW5w.gif">
+  <img width="1000" height="350" src="https://miro.medium.com/max/1094/1*4hjahs4ROzV3z6pJTmwW5w.gif">
 </p>
 You can watch this video for detailed look.
