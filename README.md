@@ -553,6 +553,6 @@ As you can see that job ran successfully, now we have to see the deployment in k
 As you can see in the below image that one pod is running and exposed on the port 30801 a web ui will appear and it will ask you to enter the brain MRI image and after clicking on submit it will predict that a person with that brain mri image having brain tumor or not.
 
 <p align="center">
-  <img width="1000" height="350" src="https://miro.medium.com/max/1094/1*4hjahs4ROzV3z6pJTmwW5w.gif">
+  <img width="1000" height="350" src="https://github.com/amit17133129/Brain_Tumor_Detection_MLops_and_Hybrid_Multi_Cloud/blob/main/brain_tumor_final.gif">
 </p>
 You can watch this video for detailed look.
