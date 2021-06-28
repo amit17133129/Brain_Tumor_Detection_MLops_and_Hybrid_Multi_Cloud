@@ -555,4 +555,3 @@ As you can see in the below image that one pod is running and exposed on the por
 <p align="center">
   <img width="1000" height="350" src="https://github.com/amit17133129/Brain_Tumor_Detection_MLops_and_Hybrid_Multi_Cloud/blob/main/brain_tumor_final.gif">
 </p>
-You can watch this video for detailed look.
