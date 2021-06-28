@@ -314,7 +314,7 @@ For launching Slave nodes you have to just change the names of the os in the var
 After launching all the ec2 instances and configuring ansible on Ansible_Controller_Node, ansible will automatically configure the kubernetes cluster inside the master and slave nodes. I have used here dynamic inventory so that ansible will fetch the public ip with their tag_names and helps to configure the kubernetes cluster dynamically.
 
 <p align="center">
-  <img width="1000" height="100" src="https://miro.medium.com/max/1094/1*jgkp0nJPPnsxOJjFxyicqw.jpeg">
+  <img width="1000" height="70" src="https://miro.medium.com/max/1094/1*jgkp0nJPPnsxOJjFxyicqw.jpeg">
 </p>
 
 ## Switcthing Azure Workspace:
@@ -324,3 +324,235 @@ Now we have to launch one VM into azure cloud and and inside that we will config
   <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*05kBBOKKw50byqu1fXdzzQ.png">
 </p>
 
+you have to got to azure cli in azure portal from which you will get subcription_id, client_id, client_secret, tenant_id.
+<p align="center">
+  <img width="700" height="700" src="https://miro.medium.com/max/1094/1*Tzj2lAkuzoPT_lfi1oSCcg.png">
+</p>
+
+Now we have to create a code for launching virtual machine in azure. below is the code which will help you to create a vm in azure.
+
+## What is a resource group
+A resource group is a container that holds related resources for an Azure solution. The resource group can include all the resources for the solution, or only those resources that you want to manage as a group. You decide how you want to allocate resources to resource groups based on what makes the most sense for your organization. Generally, add resources that share the same lifecycle to the same resource group so you can easily deploy, update, and delete them as a group. we have to set the condition that if terraform.workspace == azure_prod then launch one resource group.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*xsvCAxVIx6rDiXOuXRCroA.png">
+</p>
+
+## What is Azure Virtual Network?
+
+Azure Virtual Network (VNet) is the fundamental building block for your private network in Azure. VNet enables many types of Azure resources, such as Azure Virtual Machines (VM), to securely communicate with each other, the internet, and on-premises networks. VNet is similar to a traditional network that you’d operate in your own data center, but brings with it additional benefits of Azure’s infrastructure such as scale, availability, and isolation.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*RUK8-Ega6XSFUuMNBKwRzg.png">
+</p>
+
+## Subnets:
+A subnet is a range of IP addresses in the VNet. You can divide a VNet into multiple subnets for organization and security. Each NIC in a VM is connected to one subnet in one VNet. NICs connected to subnets (same or different) within a VNet can communicate with each other without any extra configuration.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*2RBNcJdltpgZQ2qnGFD8Ig.png">
+</p>
+
+## Network security groups:
+You can use an Azure network security group to filter network traffic to and from Azure resources in an Azure virtual network. A network security group contains security rules that allow or deny inbound network traffic to, or outbound network traffic from, several types of Azure resources. For each rule, you can specify source and destination, port, and protocol. In the below code i have give all traffic permission for inbound.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*bhKtQFA0bvXkzMrq5CwMKA.png">
+</p>
+
+## Network Security group Association
+Associates a Network Security Group with a Subnet within a Virtual Network.
+
+<p align="center">
+  <img width="1000" height="230" src="https://miro.medium.com/max/1094/1*TA9b-Sr93vJIoCDKB88IXg.png">
+</p>
+
+## Nic Card:
+A Network Interface (NIC) is an interconnection between a Virtual Machine and the underlying software network. An Azure Virtual Machine (VM) has one or more network interfaces (NIC) attached to it. Any NIC can have one or more static or dynamic public and private IP addresses assigned to it.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*l9hvmUKxr4WwAJ-Y2DjLdg.png">
+</p>
+
+## Public_IP: 
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*dCnt61Ley_ZqeV0Ype2t2A.png">
+</p>
+
+## Storage account:
+An Azure storage account contains all of your Azure Storage data objects: blobs, file shares, queues, tables, and disks. The storage account provides a unique namespace for your Azure Storage data that’s accessible from anywhere in the world over HTTP or HTTPS. Data in your storage account is durable and highly available, secure, and massively scalable.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*TsUxRuJ5bezKmf4M8UJusQ.png">
+</p>
+
+## Launching Virtual Machines:
+Azure Virtual Machines (VM) is one of several types of on-demand, scalable computing resources that Azure offers. Typically, you choose a VM when you need more control over the computing environment than the other choices offer. This article gives you information about what you should consider before you create a VM, how you create it, and how you manage it.
+An Azure VM gives you the flexibility of virtualization without having to buy and maintain the physical hardware that runs it. However, you still need to maintain the VM by performing tasks, such as configuring, patching, and installing the software that runs on it.
+
+<p align="center">
+  <img width="1000" height="1500" src="https://miro.medium.com/max/1094/1*tNRNIViIy7sgHwQeFkPszA.png">
+</p>
+
+In the above code i have launched one vm and using remote_exec module i configured jenkins node into that respective vm.
+```
+Following configuration done in JenkinsNode
+1. Installed Java
+2. Installed Git
+3. Installed Jnekins
+4. Started Jenkins
+5. Enabled Jenkins
+```
+
+<p align="center">
+  <img width="1000" height="400" src="https://miro.medium.com/max/1094/1*LKJWW3sBueh4XJ_FOtt7Cg.jpeg">
+</p>
+
+Now after launching the node successfully take public_ip and on port 8080 your jenkins node will be running. It will look something like this below image.
+
+<p align="center">
+  <img width="1000" height="400" src="https://miro.medium.com/max/1094/0*v6nZ6vEAa7Nn7XaM.jpeg">
+</p>
+
+You have to copy the location and paste inside jenkins node like this `sudo cat /var/lib/jenkins/secrets/initialAdminPassword`.
+
+it will give a password text and you have to paste inside above Admini
+
+<p align="center">
+  <img width="1000" height="100" src="https://miro.medium.com/max/1094/0*tHlSN9JKuR2lOqqk.jpeg">
+</p>
+
+After that you need to create a password because this password is too long and hard to remember. So below are the steps shown in the video to create the password and to install the restive plugins. Ensure that you have to install below plugins.
+
+## Installing Plugins In jenkins:
+Plugins from below lists needed to be installed:
+1. ssh: ssh plugins need to install for connecting the kubernetes servers.
+
+<p align="center">
+  <img width="1000" height="100" src="https://miro.medium.com/max/1094/1*7ZZ9wN4wfRqHzlo2xPWBSw.jpeg">
+</p>
+
+2. Gihub: Github plugins need to install to us SCM services.
+
+<p align="center">
+  <img width="1000" height="50" src="https://miro.medium.com/max/1094/1*EU-yO4CqG-eiuZmKDN1bcw.jpeg">
+</p>
+3. Pipeline: Pipline plugin will helps you to automate the jobs and make your setup easy.
+
+## Now we have to create a Deep Learning Image in GCP:
+
+In GCP, we have to launch one compute instances. As we only have to create a deep learning image so using Dockerfile
+
+```
+Steps to follow:
+1. Launch one Compute instance
+2. Install Docker in that Compute instance
+3. Create a Dockerfile
+4. Install python, required libraries
+5. Install Flask
+6. Install Apache web server
+```
+
+## Provisioner For GCP:
+First we have to set the provisoner for gcp. you need to set the service account first in gcp → IAM user → service account. It will give you a file in the json format you have to download that file and keep in a directory.
+You have to specify the project name here i have given multicloud-315014, you can give any name. Also you need to specify the region name, i have given asia-south1.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*Pi-uv6J7QixMq4i1S6mG9A.png">
+</p>
+
+## Launching a Compute instance:
+
+Google Compute Engine is the Infrastructure as a Service component of Google Cloud Platform which is built on the global infrastructure that runs Google’s search engine, Gmail, YouTube and other services. Google Compute Engine enables users to launch virtual machines on demand.
+
+<p align="center">
+  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*phyBuwEK4DOA3_i1xq0Pmg.png">
+</p>
+
+To connect to compute instance and run commands using remote_exec then you have to set the metadata (ssh key).
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*zCseChOzp9r5dgQqdxbwtg.png">
+</p>
+
+Now to transfer any files you have to use file module that will helps you to transfer the files from local to compute instance.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*nwSdZuUrL0ZWMFxBa5iPvA.png">
+</p>
+
+Here i am transfering only dockerfile. Below code will helps you to create a docker file.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*yFgEavGWNsCiio5oJnyMfg.png">
+</p>
+
+Now we have to run the commands in the compute instance which helps us to create the deep learning image and it will push to docker hub simultaneously.
+
+<p align="center">
+  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*3p_V4hGbISVKcVBWZLUdIQ.png">
+</p>
+
+<p align="center">
+  <img width="1000" height="300" src="https://miro.medium.com/max/1094/1*0L_ClvugBvbvyewQxPkqPw.png">
+</p>
+
+After running above all the commands terraform will publish the image to dockerhub and it will looks something like this.
+
+<p align="center">
+  <img width="1000" height="150" src="https://miro.medium.com/max/1094/1*lyFm7O3pgcnmpCgfO1AgDA.jpeg">
+</p>
+
+As our image is ready so now you have to create a repository in github and add the pipeline code in that repo inside Jenkinsfile.
+
+<p align="center">
+  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*FnJKauF9koQA9fHBxNgyNg.png">
+</p>
+
+Now we need to copy the url of repository and you have to create a new job with multibranch pipeline and you need to to add source “git” and paste the url and save the job.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*l_pfKXyclV75u12w5_xcyg.jpeg">
+</p>
+
+## Adding a Node:
+Now you have to create a node by going into managed node and cloud, give node name, here i have given kubernetes_brain_tumor and click on permanent node.
+
+<p align="center">
+  <img width="1000" height="300" src="https://miro.medium.com/max/1094/1*cOaBPi-dz9QXtVwFiWuAkA.jpeg">
+</p>
+
+Then you have to enter the node home directory, so put /home/ec2-user as it came from from ec2 instance. Then add label to the node so that you can write in jenkinsfile i.e. on which node you wanted to run the job.
+
+<p align="center">
+  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*BZslzeA_pTAxtVb4susKoQ.jpeg">
+</p>
+
+After saving the job it will looks like below image
+
+<p align="center">
+  <img width="1000" height="150" src="https://miro.medium.com/max/1094/1*wmn1pXyDclxDsMza_pKw8A.jpeg">
+</p>
+
+Now you have to just click on build and your job will start building. Below is the console output of the job.
+
+<p align="center">
+  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*zn_4uFm9_ks3BakJQeAa_Q.jpeg">
+</p>
+
+<p align="center">
+  <img width="1000" height="700" src="https://miro.medium.com/max/1094/1*zn_4uFm9_ks3BakJQeAa_Q.jpeg">
+</p>
+
+As you can see that job ran successfully, now we have to see the deployment in kubernetes cluster. So go to kubernetes master node and then type below commands.
+
+<p align="center">
+  <img width="1000" height="400" src="https://miro.medium.com/max/1094/1*96MkU5mzTtGuNr-7qKzpkw.png">
+</p>
+
+As you can see in the below image that one pod is running and exposed on the port 30801 a web ui will appear and it will ask you to enter the brain MRI image and after clicking on submit it will predict that a person with that brain mri image having brain tumor or not.
+
+<p align="center">
+  <img width="1000" height="400" src="https://miro.medium.com/max/1094/1*4hjahs4ROzV3z6pJTmwW5w.gif">
+</p>
+You can watch this video for detailed look.
