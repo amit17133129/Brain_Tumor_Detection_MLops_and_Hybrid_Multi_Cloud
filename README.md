@@ -178,3 +178,149 @@ By default terraform create a default workspace and the * represents the current
 
 Now we have to launch instances with their architecture on different clouds e.g. AWS, Azure, GCP. Here i will use terraform for provisioning the instances on different cloud. The below architecture will helps you know what i am doing on aws.
 
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*sTGm6OIOQ7QkRiZBqozOHg.gif">
+</p>
+
+For doing provisioning on terraform you have to set provisioner for aws. You have to create a profile. Here i have created terraformuser. you can create profile using below command. You have to set the access key and secret key of IAM user in AWS. I have given region is ap-south-1(mumbai[india]).
+`Note: You have to create IAM user in AWS.`
+
+```
+C:\Users\Amit>aws configure  --profile terraforuser(user_name)
+AWS Access Key ID : XXXXXXXXXXX
+AWS Secret Access Key : XXXXXXXXXXX
+Default region name : ap-south-1
+Default output format : none
+```
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*6Utj3cxsUmiG8eoJILxDUg.png">
+</p>
+Now you can go for provisioning resources in aws. Below are the resources which i have provisioned in aws.
+```
+1. VPC
+2. Subnets
+3. Route table
+4. Subnet association with route table
+5. Internet Gateway
+6. security group
+7. 4 ec2 instances.
+```
+
+## VPC:
+Amazon Virtual Private Cloud (Amazon VPC) enables you to launch AWS resources into a virtual network that you’ve defined. This virtual network closely resembles a traditional network that you’d operate in your own data center, with the benefits of using the scalable infrastructure of AWS.
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*wca_Orve5Gksa-Y6vcakRA.png">
+</p>
+
+the above code will create VPC. The above vpc block accept the cidr_block. you can enable dns support given to ec2 instances after launching. You can give the tag name to the above vpc. Here i have given “TerraformVpc”. We have to launch this resource in aws only so as we are doing hybrid multi cloud management therefore in every resource we have to specify workspace condition. If terraform.workspace == aws_prod then launch one vpc.
+
+
+## Creating Subnets
+Subnetwork or subnet is a logical subdivision of an IP network. The practice of dividing a network into two or more networks is called subnetting. AWS provides two types of subnetting one is Public which allow the internet to access the machine and another is private which is hidden from the internet. Here i am using element function which will help to take the count index (count of a resource) of the vpc and take the same index value which is inside var.az variable file. you can find all the codes in the github link below at the end.
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*dyjcnV8JPIoxbbFD2kocsQ.png">
+</p>
+
+## Creating Security Group
+
+A security group acts as a virtual firewall for your EC2 instances to control incoming and outgoing traffic. … If you don’t specify a security group, Amazon EC2 uses the default security group. You can add rules to each security group that allow traffic to or from its associated instances.
+
+<p align="center">
+  <img width="800" height="800" src="https://miro.medium.com/max/1094/1*wEiUYWWfAKmNduKUvhLwcA.png">
+</p>
+
+The above block of code will create a security group. It accepts the respective parameters name(name of the security group), vpc_id, ingress(inbound rule) here i have given “all traffic”. “-1” means all. from_port= 0 to_port=0 (0.0.0.0) that means we have disabled the firewall. you need to mention the range of IP’s you want have in inbound rule.
+
+
+The egress rule is the outbound rule. I have taken (0.0.0.0/0) means all traffic i can able to access from this outbound rule. You can give the name of respective Security Group.
+
+
+## Creating InternetGateway
+An internet gateway serves two purposes: to provide a target in your VPC route tables for internet-routable traffic, and to perform network address translation (NAT) for instances that have been assigned public IPv4 addresses.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*xiOzNes2dVu5MaViYfe3Sw.png">
+</p>
+
+the above code will create you respective internet gateway. you need to specify on which vpc you want to create internet gateway. Also you can give name using tag block.
+
+## Creating Route Table
+A route table contains a set of rules, called routes, that are used to determine where network traffic from your subnet or gateway is directed.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*rUMT12O2TWaGKQpavHkMVw.png">
+</p>
+
+You need to create a route table for the internet gateway you have created above. Here, i am allowing all the IP rage. So my ec2 instances can connect to the internet world. we need to give the vpc_id so that we can easily allocate the routing table to respective vpc. You can specify the name of the routing table using tag block.
+
+## Route Table Association To Subnets
+We need to connect the route table created for internet gateways to the respective subnets inside the vpc.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*N260BaY3KDFTlN1tVb9LJA.png">
+</p>
+
+You need to specify which subnets you want to take to the public world. As if the subnets gets associated(connected) to the Internet Gateway it will be a public subnet. But if you don’t associate subnets to the Internet gateway routing table then it will known as private subnets. The instances which is launched in the private subnet is not able to connected from outside as it will not having public IP, also it will not be connected to the Internet Gateway.
+
+You need to specify the routing table for the association of the subnets. If you don’t specify the routing table in the above association block then subnet will take the vpc’s route table. So if you want to take the ec2 instances to the public world then you need to specify the router in the above association block. Its upon you which IP range you want you ec2 instances to connect. Here i have give 0.0.0.0/0 means i can access any thing from the ec2 instances.
+
+## Creating Ec2 Instances
+
+An EC2 instance is nothing but a virtual server in Amazon Web services terminology. It stands for Elastic Compute Cloud. It is a web service where an AWS subscriber can request and provision a compute server in AWS cloud. … AWS provides multiple instance types for the respective business needs of the user.
+
+## Ansible Controller Node:
+
+<p align="center">
+  <img width="1000" height="3300" src="https://miro.medium.com/max/1094/1*tA6P7Ndm3_7N6t3D6lPn5Q.png">
+</p>
+
+In the above code, it will create a new instance. It accepts the following parameters.
+
+```
+ami-> image name
+instance_type-> type of instances
+subnet_id-> In which subnet you want to launch instance
+vpc_security_group_ids->  Security Group ID
+key_name-> key name of instance
+Name-> name of the instance
+```
+
+In the above terraform code i have launched one ec2 instance(Ansible_Controller_Node) and then using remote_exec module i transferred the files from local to ec2 instances inside /home/ec2-user and from there i moved to respective files and folders. For detailed configuration of ansible controller node visit here. The ansible playbook you will find in the github only.Launching Target Nodes:
+
+For launching Slave nodes you have to just change the names of the os in the variable file. you have to pass these variables using index values like if you give var.osnames[0] → Ansible_controller_node, var.osnames[1] → K8S_Master, var.osnames[2] → K8S_Slave1, var.osnames[3] → K8S_Slave2.
+
+<p align="center">
+  <img width="1000" height="100" src="https://miro.medium.com/max/1094/1*yfwOUh4zOsH234i5ojzcrg.png">
+</p>
+
+## Master Node:
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*5gJz0q3WV_n3vm7gG2fGKg.png">
+</p>
+
+## Slave Node1:
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*ehAecd6Sh7aGfzyJDStZcg.png">
+</p>
+
+## Slave Node2:
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*ByhrSJUTTdJDVk7J5V1fOQ.png">
+</p>
+
+After launching all the ec2 instances and configuring ansible on Ansible_Controller_Node, ansible will automatically configure the kubernetes cluster inside the master and slave nodes. I have used here dynamic inventory so that ansible will fetch the public ip with their tag_names and helps to configure the kubernetes cluster dynamically.
+
+<p align="center">
+  <img width="1000" height="100" src="https://miro.medium.com/max/1094/1*jgkp0nJPPnsxOJjFxyicqw.jpeg">
+</p>
+
+## Switcthing Azure Workspace:
+Now we have to launch one VM into azure cloud and and inside that we will configure jenkins. Before that you have to set the provisioner for azure cloud.
+
+<p align="center">
+  <img width="1000" height="500" src="https://miro.medium.com/max/1094/1*05kBBOKKw50byqu1fXdzzQ.png">
+</p>
+
