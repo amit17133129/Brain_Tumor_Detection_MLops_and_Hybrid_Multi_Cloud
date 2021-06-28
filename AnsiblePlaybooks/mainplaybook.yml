@@ -1,0 +1,9 @@
+- hosts: ["tag_Name_K8S_Master"]
+  roles:
+  - name: "Configuring Master Node"
+    role:  "/home/ec2-user/master"
+
+- hosts: ["tag_Name_K8S_Slave1", "tag_Name_K8S_Slave2"]
+  roles:
+  - name: "Configuring Slave Node"
+    role:  "/home/ec2-user/slave"
