@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.6s;
+  padding-top: 70px;
+}
+
+
+
+.lk{
+  background-color: #f2f2f2;
+  padding: 250px;
+  background-image: url("https://brain-tumor-hybrid-cloud-and-mlops.s3.ap-south-1.amazonaws.com/bt2.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: #161616
+}
+.heading{
+  font-size: 50px;
+  padding: 120px;
+  color: #fff9ca
+}
+
+.heading1{
+  font-size: 30px;
+  padding: 50px;
+  color: #FFFBDF;
+}
+.heading2{
+  font-size: 50px;
+  color: #FFFBDF;
+}
+.bg-image {
+  /* The image used */
+
+
+  /* Add the blur effect */
+
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.form-control{
+    background-color: #FFC107;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px 2px;
+  border-radius: 10%;
+  
+}
+
+.op {
+ left: 20px;
+}
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+<span  style="font-size:30px;cursor:pointer; color: white; left:0;" onclick="openNav()">&#9776; open</span>
+    <h1 class=heading><center>Brain Tumor Detector</center>
+</style>
+
+     <h3 class=heading1><center>Enter Brain MRI Image</center></h3>
+<body class=lk
+
+  <div>
+    <form action="/prediction" method="POST" enctype="multipart/form-data">
+       <!-- <label for="formFileMultiple" class="form-label"  type="file"></label>-->
+        <center><input class=form-control  type="file" name='img' /></center>
+        <center><input type="submit" value="Submit"></center>
+    </form>
+
+    <p class=heading2>
+        <center><strong>Note:</strong> Enter .jpg format only*</center>
+    </p>
+
+
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">Types of Brain Tumor </a>
+  <a onclick="Glioma()" href="#">1. Glioma Tumor</a>
+  <a onclick="Meningioma()"href="#">2. Meningioma Tumor</a>
+  <a onclick="Pituitary()" href="#">3. Pituitary Tumor</a>
+</div>
+
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "300px";
+}
+
+function Glioma(){
+  location.href = "https://www.mayoclinic.org/diseases-conditions/glioma/symptoms-causes/syc-20350251";
+}
+
+function Meningioma(){
+  location.href = "https://www.cancer.gov/rare-brain-spine-tumor/tumors/meningioma";
+}
+
+function Pituitary(){
+  location.href = "https://www.mayoclinic.org/diseases-conditions/pituitary-tumors/symptoms-causes/syc-20350548#:~:text=A%20pituitary%20tumor%20is%20a,develop%20in%20your%20pituitary%20gland.";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+   
+</body>
+</html> 
